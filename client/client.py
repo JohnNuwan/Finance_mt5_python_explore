@@ -12,6 +12,10 @@ import json
 from config.config import *
 from config.function import *
 import time
+
+import schedule
+
+
 os.system('cls')
 cs = Console()
 cs.log("Client")
@@ -24,7 +28,6 @@ url = f"http://{host}:{port}"
 cs.log("Try to get Connection : "+url)
 r = requests.get(url)
 cs.log(r.text)
-import schedule
 name = "XAUUSD"#input('Enter Symbol Name :')
 timeframe = "M1"
 num_bars= 200
@@ -33,6 +36,11 @@ count = 0
 triger_signal_init = 0
 lot = 0.04
 comment = f'Ichimoku_{timeframe}'
+
+TOKEN = ""
+CHAT_ID = ""		
+
+names = ["GOLD","[DJI30]","[DAX40]"]
 
 def message(symbol,ut,Type):
 	time_now = datetime.now()
@@ -83,10 +91,7 @@ def worker(name,timeframe,num_bars):
 	# 	cs.M ="Action Possible",justify='center',style='cyan')
 	# 	# open_trade_buy(action = triger_signal_name, symbol=symbol, lot=lot, deviation=20, comment=comment)
 	# 	triger_signal_init = triger_signal
-TOKEN = "1801058128:AAETqJbJMjVUt6ewpjYL2ZVIU8wzIlrzJL4"
-CHAT_ID = "@Scalp_Perfect"		
 
-names = ["BTCUSD","XAUUSD","GER40.cash","EURUSD","USDCAD","US30.cash",'UK100.cash'] #"XAUUSD",'GER40.cash',"USDCAD",'UK100.cash'
 
 def position(name,Type,timeframe):
 	route=f"/open_position/{name}/{timeframe}/{Type}/{comment}/{lot}"
@@ -102,10 +107,10 @@ def job():
 		M3 =worker(name,"M3",num_bars)
 		M5 =worker(name,"M5",num_bars)
 		M15 =worker(name,"M15",num_bars)
-		H1 =worker(name,"H1",num_bars)
+		# H1 =worker(name,"H1",num_bars)
 		if M1["name"] == M3['name'] == M5["name"] == M15['name'] :
 			cs.log("Name Ok")
-			if M1["last Signal"] == M3['last Signal'] == M5["last Signal"] == M15["last Signal"]   == None or M1["last Signal"] == M3['last Signal'] == M5["last Signal"] == M15["last Signal"] != 0:
+			if M1["last Signal"] == M5["last Signal"]  == None or M1["last Signal"] == M5["last Signal"]  != 0:
 				if M1["last Signal"] != None or M1["last Signal"] == 0  :
 					print(M1["last Signal"])
 					cs.log("Get Stoch")
@@ -137,6 +142,8 @@ def job():
 						last_res = full_df["smooth resistance"][-1]
 						last_supp = full_df["smooth support"][-1]
 
+						last_signal = full_df["signal"][-1]
+
 						time_data = full_df.index[-1]
 
 						data = {
@@ -150,18 +157,20 @@ def job():
 								"Prev RSI 7P" : prev_rsi,
 								"SMA fast 10P" : last_sma_fast,
 								"SMA slow 21P" : last_sma_slow,
+								"Last_Signal" : last_signal,
 						}
 
 						# cs.log()
 						cs.log(data)
 						(data['time'])
 						if (triger == -1) and M1["last Signal"] == "sell":
-							# message(name,ut="M1",Type=M1["last Signal"])
+							message(name,ut="M1",Type=M1["last Signal"])
 							position(name=name,Type="sell",timeframe="M1")
 
 						if (triger == -1) and  M1["last Signal"] == 'buy':
 							# Type = 1
 							position(name=name,Type="buy",timeframe="M1")
+							message(name,ut="M1",Type=M1["last Signal"])
 
 						print(triger , M1["last Signal"])
 						# verif = chek_take_position(symbol=name,comment=comment,Type=Type)

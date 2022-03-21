@@ -82,30 +82,30 @@ async def position_total():
 
 
 
-@app.get('/strategy_comment/{name}')
-async def strategy_comment(name:str):
-	mt5.initialize()
-	account_info=mt5.account_info()
-	# get the list of positions on symbols whose names contain "*USD*"
-	usd_positions=mt5.positions_get()
-	if usd_positions==None:
-		print("No positions with group=\"*USD*\", error code={}".format(mt5.last_error()))
-	elif len(usd_positions)>0:
-		print("Total Positions {}".format(len(usd_positions)))
-		# display these positions as a table using pandas.DataFrame
-		df=pd.DataFrame(list(usd_positions),columns=usd_positions[0]._asdict().keys())
-		print(df.columns)
-		ensemble_1 = df.groupby('symbol')
-		for i in ensemble_1:
-			if i[0] == name:
-				data = pd.DataFrame(i)
-				for k in data.itertuples():
-					print()
-					data = k[1]
-					print(type(data))
-					print(data)
+# @app.get('/strategy_comment/{name}')
+# async def strategy_comment(name:str):
+# 	mt5.initialize()
+# 	account_info=mt5.account_info()
+# 	# get the list of positions on symbols whose names contain "*USD*"
+# 	usd_positions=mt5.positions_get()
+# 	if usd_positions==None:
+# 		print("No positions with group=\"*USD*\", error code={}".format(mt5.last_error()))
+# 	elif len(usd_positions)>0:
+# 		print("Total Positions {}".format(len(usd_positions)))
+# 		# display these positions as a table using pandas.DataFrame
+# 		df=pd.DataFrame(list(usd_positions),columns=usd_positions[0]._asdict().keys())
+# 		print(df.columns)
+# 		ensemble_1 = df.groupby('symbol')
+# 		for i in ensemble_1:
+# 			if i[0] == name:
+# 				data = pd.DataFrame(i)
+# 				for k in data.itertuples():
+# 					print()
+# 					data = k[1]
+# 					print(type(data))
+# 					print(data)
 					
-	return "Teste"
+# 	return "Teste"
 
 
 @app.get('/OHLC/{name}/{timeframe}/{num_bars}')
@@ -117,7 +117,7 @@ async def ohlc(name:str,timeframe:str,num_bars:int):
 @app.get('/sup_res/{name}/{timeframe}/{num_bars}')
 async def sup_res(name:str,timeframe:str,num_bars:int):
 	df =  get_data(name, timeframe, num_bars)
-	data = support_resistance(df, duration=6,spread=0).tail()
+	data = support_resistance(df, duration=6,spread=df['spread'][-1]).tail()
 	return data.to_json()
 
 

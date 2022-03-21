@@ -91,7 +91,7 @@ def RE_split():
 		for row in df.itertuples():
 			print(row)
 			if row.comment =="Pct M1"or"ichimoku" or "Renfort M1" or "python Meanreverse" or"python M1"or"python M3" or"python M5"or"python M15" or 'Alligator M1':
-				if calc_dif(row) >= 0.065:
+				if calc_dif(row) >= 0.143:
 					if row.volume > 0.02:
 						print("-"*60)
 						print("symbole\t:\t",row.symbol)
@@ -181,8 +181,8 @@ def RE_split():
 
 		for row in df.itertuples():
 			print(row)
-			if row.comment =="ichimoku" or 'Reverse M1' or 'Renfort M1' or "python Meanreverse" or"python M1"or"python M3" or"python M5"or"python M15" or"python M250" or"python H1":
-				if calc_dif(row) <= -1:
+			if row.comment =="Ichimoku_M1" or 'Reverse M1' or 'Renfort M1' or "python Meanreverse" or"python M1"or"python M3" or"python M5"or"python M15" or"python M250" or"python H1":
+				if calc_dif(row) <= -0.65:
 					if row.volume >= 0.02:
 						print("-"*60)
 						print("symbole\t:\t",row.symbol)
