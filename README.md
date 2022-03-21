@@ -49,7 +49,44 @@ rich
 
 > Pour retour promp 
 
+
+schedule
+> Pour Planifier des Actions Dans le Temps
 ---
 
 # Serveur
+
+creation d'un simple serveur pour echange mes donner en temp reel 
+
+donner boursiere , plus retour strategie 
+prise de position automatique 
+management des position 
+recommandation de position 
+correlation des different actife
+
+## Création d'une api 
+
+recuperé en temp-reel les donné sous deux forme OHCL et Tick
+pouvoir Traité et servire les donner au client 
+
+# Server Route:
+
+- Get /OHLC/{name}/{timeframe}/{num_bars}
+
+- Get /stochc/{name}/{timeframe}/{num_bars}
+
+- Get /sup_res/{name}/{timeframe}/{num_bars}
+
+- Get /ichimoku/{name}/{timeframe}/{num_bars}
+
+- Get /position_total
+
+- Get/positions_en_court
+
+
+Definition port : *localhost*
+Definition host : **8090**
+
+
+---
 
