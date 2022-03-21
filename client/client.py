@@ -34,13 +34,13 @@ num_bars= 200
 signal = 0
 count = 0
 triger_signal_init = 0
-lot = 0.04
+lot = 0.02
 comment = f'Ichimoku_{timeframe}'
 
 TOKEN = ""
 CHAT_ID = ""		
 
-names = ["GOLD","[DJI30]","[DAX40]"]
+names = ["GOLD"]
 
 def message(symbol,ut,Type):
 	time_now = datetime.now()
