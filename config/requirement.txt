@@ -1,0 +1,11 @@
+fastapi
+pandas
+numpy
+ta
+schedul
+rich
+art
+MetaTrader5
+seaborn
+pytz
+uvicorn
