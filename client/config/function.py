@@ -7,13 +7,14 @@ from rich import print
 import json
 
 from datetime import datetime
+from rich.console import Console
 
 os.system('cls')
 
 # symbol = "BTCUSD"#"UK100.cash"#"GER40.cash"
 # comment = "HOLD"#"Ichimoku_M1"
 
-
+cs = Console()
 url = f"http://{host}:{port}"
 print(url)
 
@@ -58,23 +59,19 @@ def chek_take_position(symbol,comment,Type):
 								}
 						print(data_symbol)
 						last_time = row.index
-						# list_frame.append(row.time)
-						# # print(type(data_symbol))
-						# series = pd.Series(data_symbol)
-			  
-						# # print(series)
-						# list_frame.append(series)
-						count+=1
-		data_check = {
-				"time" : last_time,
-				"Name": symbol,
-				"Nb Pos" : count,
-				"Lot" : volume_count,
-				"Type" : Type
-			}
-		cs.log(data_check)
-		return data_check
-		
+						data_check = {
+								"time" : last_time,
+								"Name": symbol,
+								"Nb Pos" : count,
+								"Lot" : volume_count,
+								"Type" : Type
+							}
+						# df = pd.DataFrame(data_check)
+						print(data_check)
+						return data_check#df.to_json()
+			
+			else :
+				return "Note Data"
 	except Exception as e:
 		return e
 

@@ -46,6 +46,39 @@ def get_data(name, timeframe, num_bars):
 		print(f'Error :\n\n\t{e}')
 
 
+def get_data_hist(name, timeframe, num_bars):
+    try:
+        TIMEFRAMES = ['M1', 'M5', 'M15', 'M30', 'H1', 'H4', 'D1', 'W1', 'MN1']
+        TIMEFRAME_DICT = {
+            'M1': mt5.TIMEFRAME_M1,
+            'M3': mt5.TIMEFRAME_M3,
+            'M5': mt5.TIMEFRAME_M5,
+            'M15': mt5.TIMEFRAME_M15,
+            'M30': mt5.TIMEFRAME_M30,
+            'H1': mt5.TIMEFRAME_H1,
+            'H4': mt5.TIMEFRAME_H4,
+            'D1': mt5.TIMEFRAME_D1,
+            'W1': mt5.TIMEFRAME_W1,
+            'MN1': mt5.TIMEFRAME_MN1,
+        }
+        timeframe = TIMEFRAME_DICT[timeframe]
+        
+        mt5.initialize()
+        # crée des objets 'datetime' dans le fuseau horaire UTC pour éviter l'implémentation d'un décalage de fuseau horaire local
+        utc_from = datetime(2010, 1, 10)
+        utc_to = datetime.now()
+        # récupère des barres de USDJPY M5 dans l'intervalle 2020.01.10 00:00 - 2020.01.11 13:00 dans le fuseau horaire UTC
+        rates = mt5.copy_rates_range(name, timeframe, utc_from, utc_to)
+        # bars = mt5.copy_rates_from_pos(name, timeframe, 0, num_bars)
+        df = pd.DataFrame(rates)
+        df['time'] = pd.to_datetime(df['time'], unit='s')
+        df.set_index(['time'], inplace=True)
+        return df
+        
+    except Exception as e:
+        print(f'Error :\n\n\t{e}')
+
+
 def support_resistance(df, duration=5,spread=0):
     """THE DATAFRAME NEEDS TO HAVE the following column names: high, low, close"""
 

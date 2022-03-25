@@ -114,10 +114,15 @@ async def ohlc(name:str,timeframe:str,num_bars:int):
 	return df.to_json()
 
 
+@app.get('/OHLC_hist/{name}/{timeframe}/{num_bars}')
+async def ohlc(name:str,timeframe:str,num_bars:int):
+	df =  get_data_hist(name, timeframe, num_bars)
+	return df
+
 @app.get('/sup_res/{name}/{timeframe}/{num_bars}')
 async def sup_res(name:str,timeframe:str,num_bars:int):
 	df =  get_data(name, timeframe, num_bars)
-	data = support_resistance(df, duration=6,spread=df['spread'][-1]).tail()
+	data = support_resistance(df, duration=6).tail()
 	return data.to_json()
 
 

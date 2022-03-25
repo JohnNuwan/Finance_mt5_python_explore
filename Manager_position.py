@@ -92,7 +92,7 @@ def RE_split():
 			print(row)
 			if row.comment =="Pct M1"or"ichimoku" or "Renfort M1" or "python Meanreverse" or"python M1"or"python M3" or"python M5"or"python M15" or 'Alligator M1':
 				if calc_dif(row) >= 0.143:
-					if row.volume > 0.02:
+					if row.volume >= 0.02:
 						print("-"*60)
 						print("symbole\t:\t",row.symbol)
 						print("profit\t:\t",row.profit)

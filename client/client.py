@@ -34,7 +34,7 @@ num_bars= 200
 signal = 0
 count = 0
 triger_signal_init = 0
-lot = 0.02
+lot = 0.02	
 comment = f'Ichimoku_{timeframe}'
 
 TOKEN = ""
@@ -110,7 +110,7 @@ def job():
 		# H1 =worker(name,"H1",num_bars)
 		if M1["name"] == M3['name'] == M5["name"] == M15['name'] :
 			cs.log("Name Ok")
-			if M1["last Signal"] == M5["last Signal"]  == None or M1["last Signal"] == M5["last Signal"]  != 0:
+			if M1["last Signal"] == None or M1["last Signal"] != 0:
 				if M1["last Signal"] != None or M1["last Signal"] == 0  :
 					print(M1["last Signal"])
 					cs.log("Get Stoch")
@@ -124,52 +124,52 @@ def job():
 					if triger == 0:
 						pass
 					else:
-						route_data = f"/sup_res/{name}/{timeframe}/{num_bars}"
-						r2 = requests.get(url+route_data)
-						data = json.loads(r2.text)
-						df = pd.read_json(data)
+						# route_data = f"/sup_res/{name}/{timeframe}/{num_bars}"
+						# r2 = requests.get(url+route_data)
+						# data = json.loads(r2.text)
+						# df = pd.read_json(data)
+						# # cs.log(data)
+						# full_df = df.copy()
+						# # cs.log(full_df.tail(1))
+						# price = full_df['close'][-1]
+
+						# last_rsi = full_df['rsi'][-1]
+						# prev_rsi = full_df['rsi yersteday'][-1]
+
+						# last_sma_fast = full_df["SMA fast"][-1]
+						# last_sma_slow = full_df["SMA slow"][-1]
+
+						# last_res = full_df["smooth resistance"][-1]
+						# last_supp = full_df["smooth support"][-1]
+
+						# last_signal = full_df["signal"][-1]
+
+						# time_data = full_df.index[-1]
+
+						# data = {
+						# 		"time" : time_data,
+						# 		"name" : name,
+						# 		"timeframe" : timeframe,
+						# 		"Last resistance" : last_res,
+						# 		"Last support" : last_supp,
+						# 		"Last Price" : price,
+						# 		"Last RSI 7P" : last_rsi,
+						# 		"Prev RSI 7P" : prev_rsi,
+						# 		"SMA fast 10P" : last_sma_fast,
+						# 		"SMA slow 21P" : last_sma_slow,
+						# 		"Last_Signal" : last_signal,
+						# }
+
+						# # cs.log()
 						# cs.log(data)
-						full_df = df.copy()
-						# cs.log(full_df.tail(1))
-						price = full_df['close'][-1]
-
-						last_rsi = full_df['rsi'][-1]
-						prev_rsi = full_df['rsi yersteday'][-1]
-
-						last_sma_fast = full_df["SMA fast"][-1]
-						last_sma_slow = full_df["SMA slow"][-1]
-
-						last_res = full_df["smooth resistance"][-1]
-						last_supp = full_df["smooth support"][-1]
-
-						last_signal = full_df["signal"][-1]
-
-						time_data = full_df.index[-1]
-
-						data = {
-								"time" : time_data,
-								"name" : name,
-								"timeframe" : timeframe,
-								"Last resistance" : last_res,
-								"Last support" : last_supp,
-								"Last Price" : price,
-								"Last RSI 7P" : last_rsi,
-								"Prev RSI 7P" : prev_rsi,
-								"SMA fast 10P" : last_sma_fast,
-								"SMA slow 21P" : last_sma_slow,
-								"Last_Signal" : last_signal,
-						}
-
-						# cs.log()
-						cs.log(data)
-						(data['time'])
-						if (triger == -1) and M1["last Signal"] == "sell":
-							message(name,ut="M1",Type=M1["last Signal"])
+						# (data['time'])
+						if M1["last Signal"] == "sell":
+							# message(name,ut="M1",Type=M1["last Signal"])
 							position(name=name,Type="sell",timeframe="M1")
 
-						if (triger == -1) and  M1["last Signal"] == 'buy':
+						if M1["last Signal"] == 'buy':
 							# Type = 1
-							position(name=name,Type="buy",timeframe="M1")
+							# position(name=name,Type="buy",timeframe="M1")
 							message(name,ut="M1",Type=M1["last Signal"])
 
 						print(triger , M1["last Signal"])
